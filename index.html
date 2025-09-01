@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análise de Reincidência de Phishing</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -88,6 +89,43 @@
             background-color: #4ade80; /* Cor verde para indicar progresso */
             transition: width 0.5s ease-in-out;
         }
+        /* Modal e sobreposição */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s;
+            z-index: 20;
+        }
+        .modal-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
     </style>
 </head>
 <body class="p-8 md:p-12">
@@ -100,7 +138,7 @@
                 <h2 class="text-2xl md:text-3xl font-semibold text-gray-700 mb-6">Funil dos Fisgados, Análise de Reincidência:</h2>
                 <div class="space-y-4">
                     <!-- Funil de 13 Níveis -->
-                    <div class="relative funnel-segment bg-custom-orange-1 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-orange-1 text-white p-4 flex items-center justify-between" onclick="showGraph('1x')">
                         <div class="font-bold">Fisgados 1x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">11099 fisgados</span>
@@ -113,7 +151,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-orange-2 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-orange-2 text-white p-4 flex items-center justify-between" onclick="showGraph('2x')">
                         <div class="font-bold">Fisgados 2x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">6450 fisgados</span>
@@ -125,7 +163,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-orange-3 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-orange-3 text-white p-4 flex items-center justify-between" onclick="showGraph('3x')">
                         <div class="font-bold">Fisgados 3x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">3249 fisgados</span>
@@ -137,7 +175,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-orange-4 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-orange-4 text-white p-4 flex items-center justify-between" onclick="showGraph('4x')">
                         <div class="font-bold">Fisgados 4x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">1510 fisgados</span>
@@ -149,7 +187,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-orange-5 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-orange-5 text-white p-4 flex items-center justify-between" onclick="showGraph('5x')">
                         <div class="font-bold">Fisgados 5x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">656 fisgados</span>
@@ -161,7 +199,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-gray-1 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-gray-1 text-white p-4 flex items-center justify-between" onclick="showGraph('6x')">
                         <div class="font-bold">Fisgados 6x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">266 fisgados</span>
@@ -173,7 +211,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-gray-2 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-gray-2 text-white p-4 flex items-center justify-between" onclick="showGraph('7x')">
                         <div class="font-bold">Fisgados 7x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">116 fisgados</span>
@@ -185,7 +223,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-gray-3 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-gray-3 text-white p-4 flex items-center justify-between" onclick="showGraph('8x')">
                         <div class="font-bold">Fisgados 8x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">50 fisgados</span>
@@ -197,7 +235,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-black-1 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-black-1 text-white p-4 flex items-center justify-between" onclick="showGraph('9x')">
                         <div class="font-bold">Fisgados 9x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">20 fisgados</span>
@@ -209,7 +247,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-black-2 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-black-2 text-white p-4 flex items-center justify-between" onclick="showGraph('10x')">
                         <div class="font-bold">Fisgados 10x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">10 fisgados</span>
@@ -221,7 +259,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-black-3 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-black-3 text-white p-4 flex items-center justify-between" onclick="showGraph('11x')">
                         <div class="font-bold">Fisgados 11x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">5 fisgados</span>
@@ -233,7 +271,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-custom-black-4 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-custom-black-4 text-white p-4 flex items-center justify-between" onclick="showGraph('12x')">
                         <div class="font-bold">Fisgados 12x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">2 fisgados</span>
@@ -245,7 +283,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative funnel-segment bg-gray-900 text-white p-4 flex items-center justify-between">
+                    <div class="relative funnel-segment bg-gray-900 text-white p-4 flex items-center justify-between" onclick="showGraph('13x')">
                         <div class="font-bold">Fisgados 13x</div>
                         <div class="flex items-center space-x-2">
                             <span class="text-lg font-bold">1 fisgado</span>
@@ -280,5 +318,91 @@
             </div>
         </main>
     </div>
+
+    <!-- Modal para o Gráfico -->
+    <div id="graphModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeGraph()">&times;</span>
+            <h3 id="modalTitle" class="text-xl font-bold mb-4 text-gray-800"></h3>
+            <canvas id="completionChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const completionData = {
+            '1x': [60, 65, 70, 75, 72, 78, 80],
+            '2x': [55, 60, 65, 68, 65, 70, 75],
+            '3x': [50, 55, 60, 62, 58, 65, 70],
+            '4x': [45, 50, 55, 58, 55, 60, 65],
+            '5x': [40, 45, 50, 52, 48, 55, 60],
+            '6x': [35, 40, 45, 48, 45, 50, 55],
+            '7x': [30, 35, 40, 42, 38, 45, 50],
+            '8x': [25, 30, 35, 38, 35, 40, 45],
+            '9x': [20, 25, 30, 32, 28, 35, 40],
+            '10x': [15, 20, 25, 28, 25, 30, 35],
+            '11x': [10, 15, 20, 22, 18, 25, 30],
+            '12x': [5, 10, 15, 18, 15, 20, 25],
+            '13x': [1, 5, 8, 10, 8, 12, 15],
+        };
+
+        const labels = ['Out/24', 'Nov/24', 'Dez/24', 'Jan/25', 'Fev/25', 'Mar/25', 'Abr/25'];
+        let myChart;
+
+        function showGraph(level) {
+            const modal = document.getElementById('graphModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const ctx = document.getElementById('completionChart').getContext('2d');
+
+            modalTitle.textContent = `Conclusão de Treinamento - Fisgados ${level}`;
+
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Porcentagem de Conclusão',
+                        data: completionData[level],
+                        borderColor: '#4ade80',
+                        backgroundColor: 'rgba(74, 222, 128, 0.2)',
+                        tension: 0.4,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Porcentagem de Conclusão'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            modal.classList.add('show');
+        }
+
+        function closeGraph() {
+            const modal = document.getElementById('graphModal');
+            modal.classList.remove('show');
+        }
+    </script>
 </body>
 </html>
