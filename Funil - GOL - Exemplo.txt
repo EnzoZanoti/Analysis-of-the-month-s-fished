@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Reincidência de Phishing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .funnel-segment {
+            transition: all 0.3s ease-in-out;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .funnel-segment:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .text-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .funnel-level {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .people-icons {
+            display: flex;
+            gap: 0.25rem;
+        }
+        .person-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            fill: currentColor;
+        }
+        .bg-custom-orange-1 { background-color: #ff914d; }
+        .bg-custom-orange-2 { background-color: #ff843a; }
+        .bg-custom-orange-3 { background-color: #ff7727; }
+        .bg-custom-orange-4 { background-color: #ff6a14; }
+        .bg-custom-orange-5 { background-color: #e65e0f; }
+        .bg-custom-gray-1 { background-color: #cccccc; }
+        .bg-custom-gray-2 { background-color: #b3b3b3; }
+        .bg-custom-gray-3 { background-color: #999999; }
+        .bg-custom-black-1 { background-color: #666666; }
+        .bg-custom-black-2 { background-color: #4d4d4d; }
+        .bg-custom-black-3 { background-color: #333333; }
+        .bg-custom-black-4 { background-color: #1a1a1a; }
+
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 10;
+            white-space: nowrap;
+        }
+        .funnel-segment:hover .tooltip {
+            opacity: 1;
+        }
+        .progress-bar-container {
+            width: 100px; /* Largura fixa para a barra de progresso */
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #4ade80; /* Cor verde para indicar progresso */
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="p-8 md:p-12">
+    <div class="container mx-auto">
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-800">Análise de Reincidência de Phishing 2024-2025</h1>
+        </header>
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-semibold text-gray-700 mb-6">Funil dos Fisgados, Análise de Reincidência:</h2>
+                <div class="space-y-4">
+                    <!-- Funil de 13 Níveis -->
+                    <div class="relative funnel-segment bg-custom-orange-1 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 1x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">11099 fisgados</span>
+                            <!-- Barra de progresso para 70% de conclusão -->
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-orange-2 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 2x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">6450 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-orange-3 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 3x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">3249 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-orange-4 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 4x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">1510 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-orange-5 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 5x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">656 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-gray-1 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 6x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">266 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-gray-2 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 7x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">116 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-gray-3 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 8x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">50 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-black-1 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 9x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">20 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-black-2 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 10x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">10 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-black-3 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 11x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">5 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-custom-black-4 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 12x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">2 fisgados</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative funnel-segment bg-gray-900 text-white p-4 flex items-center justify-between">
+                        <div class="font-bold">Fisgados 13x</div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold">1 fisgado</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-semibold">70% Concluído</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar w-[70%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-section">
+                <div class="bg-gray-200 text-gray-800 rounded-md p-4 mb-6">
+                    <h3 class="text-xl font-bold mb-2">Simulação de Phishing</h3>
+                    <p class="text-sm">Período: 2024-25, considerando somente funcionários ativos.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Destaques:</h3>
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Treinamento de Reforço:</h4>
+                    <p class="text-gray-600 mb-4">
+                        Como parte do programa de conscientização, sugerimos que qualquer funcionário reprovado em um teste de Phishing simulado seja imediatamente inscrito em uma “Campanha de treinamento de Reforço”.
+                    </p>
+                    <p class="text-gray-600 mb-4">
+                        Isso ajudará a diminuir a nossa pontuação de risco, mesmo que os usuários acabem falhando em uma campanha de simulação de phishing.
+                    </p>
+                    <p class="text-gray-600">
+                        A plataforma automatizará o envio de lembretes periódicos aos funcionários e aos Gestores relacionando os colaboradores que não cumprirem com as suas tarefas de treinamento.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
